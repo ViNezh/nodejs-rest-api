@@ -8,17 +8,17 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      require: [true, "Set name for user"],
+      required: [true, "Set name for user"],
     },
     email: {
       type: String,
       match: emailRegexp,
-      require: [true, "Email is required"],
+      required: [true, "Email is required"],
       unique: true,
     },
     password: {
       type: String,
-      require: [true, "Set password for user"],
+      required: [true, "Set password for user"],
       minlength: 6,
     },
     subscription: {
@@ -30,6 +30,7 @@ const userSchema = new Schema(
       type: String,
       default: "",
     },
+    avatarURL: { type: String, required: true },
   },
   { versionKey: false, timestamps: true }
 );

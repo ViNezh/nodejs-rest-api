@@ -8,7 +8,7 @@ mongoose.set("strictQuery", true);
 
 const connection = mongoose.connect(URI_DB);
 
-connection
+const startApp = connection
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Server running. Use API on port: ${PORT}`);
@@ -18,3 +18,5 @@ connection
     console.log(`Server not running. Error message: ${error.message}`);
     process.exit(1);
   });
+
+module.exports = startApp;

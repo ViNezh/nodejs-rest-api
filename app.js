@@ -12,8 +12,6 @@ const authRouter = require("./routes/api/auth");
 
 const contactsRouter = require("./routes/api/contacts");
 
-const viewRouter = require("./routes/api/viewRouter");
-
 const app = express();
 
 app.set("view engine", "pug");
@@ -28,7 +26,6 @@ app.use(express.static("public"));
 
 app.use("/api", authRouter);
 app.use("/api/contacts", contactsRouter);
-app.use("/", viewRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

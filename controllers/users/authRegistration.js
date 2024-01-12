@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const { nanoid } = require("nanoid");
+const pug = require("pug");
+const path = require("path");
+const { convert } = require("html-to-text");
 
 const { User } = require("../../models/user");
 const { HttpError, sendEmail } = require("../../helpers");
@@ -15,6 +18,7 @@ const registration = async (req, res) => {
   const verificationToken = nanoid();
   const avatarURL = gravatar.url(email);
   const hashPassword = await bcrypt.hash(password, 10);
+  const url = `http://localhost:5000/api/users/verify/${verificationToken}`;
 
   const newUser = await User.create({
     ...req.body,
@@ -23,10 +27,16 @@ const registration = async (req, res) => {
     verificationToken,
   });
 
+  const html = pug.renderFile(
+    path.join(__dirname, "../", "../", "views", "email", "layouts", "main.pug"),
+    { name: newUser.name, url }
+  );
+
   const msg = {
     to: email,
     subject: "Email confirmation",
-    html: `<a target="_blank" href="http://localhost:5000/api/users/verify/${verificationToken}">Click to confirm your email</a>`,
+    html,
+    text: convert(html),
   };
 
   await sendEmail(msg);

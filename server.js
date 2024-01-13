@@ -8,15 +8,15 @@ mongoose.set("strictQuery", true);
 
 const connection = mongoose.connect(URI_DB);
 
-const startApp = connection
+connection
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running. Use API on port: ${PORT}`);
-    });
+    console.log("MongoDB connected");
   })
   .catch((error) => {
     console.log(`Server not running. Error message: ${error.message}`);
     process.exit(1);
   });
 
-module.exports = startApp;
+app.listen(PORT, () => {
+  console.log(`Server running. Use API on port: ${PORT}`);
+});
